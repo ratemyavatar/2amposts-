@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>@{{ username }} - TikTok Profile</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        :root {
+            --tiktok-black: rgba(22, 24, 35, 1);
+            --tiktok-black-75: rgba(22, 24, 35, 0.75);
+            --tiktok-black-50: rgba(22, 24, 35, 0.5);
+            --tiktok-black-34: rgba(22, 24, 35, 0.34);
+            --tiktok-black-20: rgba(22, 24, 35, 0.2);
+            --tiktok-black-12: rgba(22, 24, 35, 0.12);
+            --tiktok-black-06: rgba(22, 24, 35, 0.06);
+            --tiktok-black-03: rgba(22, 24, 35, 0.03);
+            --tiktok-pink: rgb(254, 44, 85);
+            --tiktok-cyan: rgb(37, 244, 238);
+            --tiktok-white: rgb(255, 255, 255);
+            --tiktok-bg: rgb(255, 255, 255);
+        }
+
+        body {
+            font-family: "Inter", "TikTokFont", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--tiktok-bg);
+            color: var(--tiktok-black);
+            font-size: 14px;
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+            min-height: 100vh;
+            padding-bottom: 60px;
+        }
+
+        /* Top Header Bar */
+        .top-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.96);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .top-header::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--tiktok-black-20);
+            height: 1px;
+            transform: scaleY(0.5);
+        }
+
+        .top-header .back-btn {
+            position: absolute;
+            left: 4px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .top-header .back-btn svg {
+            width: 22px;
+            height: 22px;
+        }
+
+        .top-header .username {
+            font-size: 18px;
+            font-weight: 700;
+            text-align: center;
+            max-width: calc(100vw - 110px);
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        .top-header .share-btn {
+            position: absolute;
+            right: 4px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .top-header .share-btn svg {
+            width: 22px;
+            height: 22px;
+        }
+
+        /* Profile Header */
+        .profile-header {
+            margin: 44px 0 0;
+            padding: 0 12px;
+        }
+
+        /* User Info Row */
+        .user-info {
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 16px 0 0;
+        }
+
+        .avatar-container {
+            flex-shrink: 0;
+        }
+
+        .avatar {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            object-fit: cover;
+            background: var(--tiktok-black-06);
+        }
+
+        .user-details {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            gap: 8px;
+            min-width: 0;
+        }
+
+        .user-title {
+            color: var(--tiktok-black);
+            font-size: 16px;
+            line-height: 20.8px;
+            display: flex;
+            align-items: center;
+            font-weight: 600;
+            margin-top: 4px;
+        }
+
+        .user-title .verified-badge {
+            margin-left: 4px;
+            width: 16px;
+            height: 16px;
+        }
+
+        /* Stats Row */
+        .stats-row {
+            display: flex;
+            align-items: center;
+        }
+
+        .stat-item {
+            display: flex;
+            gap: 4px;
+            align-items: flex-end;
+        }
+
+        .stat-number {
+            color: var(--tiktok-black);
+            font-weight: 700;
+            font-size: 12px;
+            line-height: 15.6px;
+        }
+
+        .stat-label {
+            color: var(--tiktok-black-50);
+            font-weight: 400;
+            font-size: 11px;
+            line-height: 14.3px;
+        }
+
+        .stat-divider {
+            display: block;
+            margin: 0 8px;
+            height: 16px;
+            width: 1px;
+            background-color: var(--tiktok-black-20);
+        }
+
+        /* Bio */
+        .user-bio {
+            color: var(--tiktok-black);
+            font-size: 12px;
+            line-height: 15.6px;
+            text-align: left;
+            white-space: pre-line;
+            word-wrap: break-word;
+            padding: 8px 0 0;
+        }
+
+        /* Follow / Actions Row */
+        .actions-row {
+            display: flex;
+            width: 100%;
+            margin-top: 16px;
+            gap: 4px;
+        }
+
+        .follow-btn {
+            font-weight: 600;
+            font-size: 15px;
+            line-height: 19.5px;
+            flex: 1;
+            height: 32px;
+            border-radius: 2px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--tiktok-white);
+            background-color: var(--tiktok-pink);
+            border: none;
+            cursor: pointer;
+            min-height: 32px;
+        }
+
+        .action-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            border: none;
+            background: var(--tiktok-black-06);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .action-btn svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        /* Total Views Section */
+        .total-views-section {
+            margin: 16px 12px 0;
+            padding: 12px 16px;
+            background: linear-gradient(135deg, #fe2c55 0%, #ff6b8a 50%, #25f4ee 100%);
+            border-radius: 12px;
+            color: white;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .total-views-section::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 60%);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .total-views-label {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            opacity: 0.9;
+            position: relative;
+        }
+
+        .total-views-number {
+            font-size: 28px;
+            font-weight: 700;
+            margin-top: 2px;
+            position: relative;
+        }
+
+        .total-views-sub {
+            font-size: 11px;
+            opacity: 0.8;
+            margin-top: 2px;
+            position: relative;
+        }
+
+        /* Live Update Indicator */
+        .live-indicator {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 6px 0;
+            font-size: 10px;
+            color: var(--tiktok-black-50);
+        }
+
+        .live-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--tiktok-cyan);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(0.8); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        /* Stats update animation */
+        .stat-update {
+            animation: statPop 0.3s ease-out;
+        }
+
+        @keyframes statPop {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); color: var(--tiktok-pink); }
+            100% { transform: scale(1); }
+        }
+
+        /* Video Feed Tab */
+        .video-feed-tab {
+            position: sticky;
+            top: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: stretch;
+            width: 100%;
+            height: 44px;
+            z-index: 2;
+            background: var(--tiktok-white);
+            border-top: 1px solid var(--tiktok-black-20);
+        }
+
+        .video-feed-tab .tab-item {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--tiktok-black-50);
+            position: relative;
+        }
+
+        .video-feed-tab .tab-item.active {
+            color: var(--tiktok-black);
+        }
+
+        .video-feed-tab .tab-item.active::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 28px;
+            height: 2px;
+            background: var(--tiktok-black);
+            border-radius: 1px;
+        }
+
+        .tab-icon svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* Info Box */
+        .info-box {
+            margin: 20px 12px;
+            padding: 16px;
+            background: var(--tiktok-black-03);
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .info-box-icon {
+            width: 48px;
+            height: 48px;
+            margin: 0 auto 12px;
+            opacity: 0.5;
+        }
+
+        .info-box-title {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--tiktok-black);
+        }
+
+        .info-box-desc {
+            font-size: 12px;
+            line-height: 1.5;
+            color: var(--tiktok-black-75);
+        }
+
+        .info-box-note {
+            font-size: 11px;
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid var(--tiktok-black-12);
+            color: var(--tiktok-black-50);
+        }
+
+        /* Data Source Badge */
+        .data-source {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 10px;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+
+        .data-source.live {
+            background: var(--tiktok-cyan);
+            color: var(--tiktok-black);
+        }
+
+        .data-source.archived {
+            background: var(--tiktok-black-12);
+            color: var(--tiktok-black-75);
+        }
+
+        /* Responsive */
+        @media (min-width: 480px) {
+            .avatar {
+                width: 96px;
+                height: 96px;
+            }
+        }
+
+        @media (min-width: 768px) {
+            body {
+                max-width: 480px;
+                margin: 0 auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Header -->
+    <div class="top-header">
+        <div class="back-btn">
+            <svg viewBox="0 0 24 24" fill="none">
+                <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </div>
+        <span class="username" id="header-username">@{{ username }}</span>
+        <div class="share-btn">
+            <svg viewBox="0 0 24 24" fill="none">
+                <path d="M12 3V15M12 3L8 7M12 3L16 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M4 15V19C4 20.1046 4.89543 21 6 21H18C19.1046 21 20 20.1046 20 19V15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </div>
+    </div>
+
+    <!-- Profile Header -->
+    <div class="profile-header">
+        <!-- User Info Row -->
+        <div class="user-info">
+            <div class="avatar-container">
+                <img class="avatar" id="user-avatar" src="" alt="Avatar" loading="eager">
+            </div>
+            <div class="user-details">
+                <h2 class="user-title" id="user-nickname">
+                    Loading...
+                </h2>
+                <h3 class="stats-row">
+                    <div class="stat-item">
+                        <strong class="stat-number" id="following-count">--</strong>
+                        <span class="stat-label">Following</span>
+                    </div>
+                    <span class="stat-divider"></span>
+                    <div class="stat-item">
+                        <strong class="stat-number" id="followers-count">--</strong>
+                        <span class="stat-label">Followers</span>
+                    </div>
+                    <span class="stat-divider"></span>
+                    <div class="stat-item">
+                        <strong class="stat-number" id="likes-count">--</strong>
+                        <span class="stat-label">Likes</span>
+                    </div>
+                </h3>
+                <div class="actions-row">
+                    <button class="follow-btn">Follow</button>
+                    <button class="action-btn">
+                        <svg viewBox="0 0 24 24" fill="none">
+                            <path d="M12 5V19M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bio -->
+        <p class="user-bio" id="user-bio"></p>
+
+        <!-- Live Update Indicator -->
+        <div class="live-indicator">
+            <span class="live-dot"></span>
+            <span id="data-status">Loading data...</span>
+        </div>
+    </div>
+
+    <!-- Total Views Section -->
+    <div class="total-views-section">
+        <div class="total-views-label">Total Views</div>
+        <div class="total-views-number" id="total-views">--</div>
+        <div class="total-views-sub" id="video-count-label">-- videos</div>
+    </div>
+
+    <!-- Video Feed Tab -->
+    <div class="video-feed-tab">
+        <div class="tab-item active">
+            <span class="tab-icon">
+                <svg viewBox="0 0 24 24" fill="none">
+                    <rect x="3" y="3" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2"/>
+                    <rect x="14" y="3" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2"/>
+                    <rect x="3" y="14" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2"/>
+                    <rect x="14" y="14" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2"/>
+                </svg>
+            </span>
+            Videos
+        </div>
+    </div>
+
+    <!-- Info Box -->
+    <div class="info-box">
+        <svg class="info-box-icon" viewBox="0 0 48 48" fill="none">
+            <rect x="6" y="10" width="36" height="28" rx="4" stroke="currentColor" stroke-width="2"/>
+            <path d="M20 18L30 24L20 30V18Z" fill="currentColor" opacity="0.3"/>
+        </svg>
+        <div class="info-box-title">Profile Data Loaded</div>
+        <div class="info-box-desc">
+            Showing <strong id="stats-summary">live profile stats</strong> from the archived TikTok page.
+            <br>Stats update automatically every 10 seconds.
+        </div>
+        <div class="info-box-note">
+            <strong>Note:</strong> The archived HTML doesn't include the video list (TikTok doesn't embed it in server-side rendered pages). 
+            To fetch actual videos, you'd need to use yt-dlp or a headless browser with proper authentication.
+        </div>
+    </div>
+
+    <script>
+        // Format numbers like TikTok (K, M, B)
+        function formatNumber(num) {
+            num = Number(num) || 0;
+            if (num >= 1000000000) {
+                return (num / 1000000000).toFixed(1).replace(/\.0$/, '') + 'B';
+            }
+            if (num >= 1000000) {
+                return (num / 1000000).toFixed(1).replace(/\.0$/, '') + 'M';
+            }
+            if (num >= 1000) {
+                return (num / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
+            }
+            return num.toLocaleString();
+        }
+
+        // Animate stat change
+        function animateStat(element) {
+            element.classList.remove('stat-update');
+            void element.offsetWidth;
+            element.classList.add('stat-update');
+        }
+
+        // Update user data
+        let lastStats = {};
+
+        async function updateUserData() {
+            try {
+                const response = await fetch('/api/user');
+                if (!response.ok) throw new Error('Failed to fetch user data');
+                const data = await response.json();
+
+                const user = data.user;
+                const stats = data.stats;
+
+                // Update avatar
+                const avatar = document.getElementById('user-avatar');
+                if (user.avatarThumb && avatar.src !== user.avatarThumb) {
+                    avatar.src = user.avatarThumb;
+                }
+
+                // Update nickname
+                const nicknameEl = document.getElementById('user-nickname');
+                const verified = user.verified;
+                nicknameEl.innerHTML = (user.nickname || user.uniqueId || '') +
+                    (verified ? ' <svg class="verified-badge" style="display:inline;width:16px;height:16px" viewBox="0 0 48 48"><path fill="#20D5EC" d="M24 4L29.5 9.5L37 8L36 15.5L42 20L38 26L42 32L36 36.5L37 44L29.5 42.5L24 48L18.5 42.5L11 44L12 36.5L6 32L10 26L6 20L12 15.5L11 8L18.5 9.5L24 4Z"/><path fill="#FFF" d="M21.5 30.5L15 24L17 22L21.5 26.5L31 17L33 19L21.5 30.5Z"/></svg>' : '');
+
+                // Update header username
+                document.getElementById('header-username').textContent = '@' + (user.uniqueId || '');
+
+                // Update bio
+                document.getElementById('user-bio').textContent = user.signature || '';
+
+                // Update stats with animation
+                const followingEl = document.getElementById('following-count');
+                const followersEl = document.getElementById('followers-count');
+                const likesEl = document.getElementById('likes-count');
+
+                const newFollowing = formatNumber(stats.followingCount);
+                const newFollowers = formatNumber(stats.followerCount);
+                const newLikes = formatNumber(stats.heartCount || stats.heart);
+
+                if (lastStats.following !== newFollowing) {
+                    followingEl.textContent = newFollowing;
+                    animateStat(followingEl);
+                }
+                if (lastStats.followers !== newFollowers) {
+                    followersEl.textContent = newFollowers;
+                    animateStat(followersEl);
+                }
+                if (lastStats.likes !== newLikes) {
+                    likesEl.textContent = newLikes;
+                    animateStat(likesEl);
+                }
+
+                lastStats = { following: newFollowing, followers: newFollowers, likes: newLikes };
+
+                // Update total views
+                const totalViewsEl = document.getElementById('total-views');
+                const newTotalViews = formatNumber(data.totalViews);
+                if (totalViewsEl.textContent !== newTotalViews) {
+                    totalViewsEl.textContent = newTotalViews;
+                }
+                document.getElementById('video-count-label').textContent = (data.totalVideos || 0) + ' videos';
+
+                // Update data source indicator
+                const statusEl = document.getElementById('data-status');
+                const source = data.source || 'unknown';
+                if (source === 'live') {
+                    statusEl.innerHTML = 'Live data • updates every 10s <span class="data-source live">LIVE</span>';
+                } else {
+                    statusEl.innerHTML = 'Archived data from saved HTML <span class="data-source archived">ARCHIVED</span>';
+                }
+
+                // Update info box
+                document.getElementById('stats-summary').textContent = 
+                    source === 'live' ? 'live profile stats' : 'archived profile stats';
+
+            } catch (err) {
+                console.error('Error updating user data:', err);
+            }
+        }
+
+        // Initial load
+        updateUserData();
+
+        // Live updates - every 10 seconds
+        setInterval(updateUserData, 10000);
+    </script>
+</body>
+</html>
