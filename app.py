@@ -27,24 +27,19 @@ def inject_modifications(html):
     # Add total views banner and live stats script before </body>
     injection = '''
     <!-- Total Views Banner -->
-    <div style="margin: 16px 12px 0; padding: 12px 16px; background: linear-gradient(135deg, #fe2c55 0%, #ff6b8a 50%, #25f4ee 100%); border-radius: 12px; color: white; text-align: center; position: relative; overflow: hidden;">
-        <div style="position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 60%); animation: shimmer 3s infinite;"></div>
+    <div style="margin: 16px 12px 0; padding: 12px 16px; background: #fe2c55; border-radius: 12px; color: white; text-align: center; position: relative; overflow: hidden;">
         <div style="font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; opacity: 0.9; position: relative;">Total Views</div>
         <div id="total-views" style="font-size: 28px; font-weight: 700; margin-top: 2px; position: relative;">--</div>
         <div id="video-count-label" style="font-size: 11px; opacity: 0.8; margin-top: 2px; position: relative;">27 videos</div>
     </div>
     
     <style>
-        @keyframes shimmer {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
         .stat-update {
             animation: statPop 0.3s ease-out;
         }
         @keyframes statPop {
             0% { transform: scale(1); }
-            50% { transform: scale(1.05); color: rgb(254, 44, 85); }
+            50% { transform: scale(1.05); }
             100% { transform: scale(1); }
         }
     </style>
